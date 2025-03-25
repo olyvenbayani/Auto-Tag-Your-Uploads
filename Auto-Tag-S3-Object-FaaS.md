@@ -12,16 +12,17 @@ Whenever a user uploads a file to S3, an AWS Lambda function will:
 2. Go to Properties → Event notifications → Create event
 
 ![Image Description](images/image2.png)
-
+![Image Description](images/image3.png)
 3. Event name: upload-tagging-trigger
 
 4. Event type: PUT (Trigger when a new file is uploaded)
+![Image Description](images/image4.png)
 
-5. Destination: Select AWS Lambda
+5. Destination: Select AWS Lambda. We'll get back to this later.
 
 ## Step 2: Create the Lambda Function
 1. Go to AWS Lambda → Click "Create function"
-
+![Image Description](images/image5.png)
 2. Choose "Author from scratch"
 
 3. Function name: auto-tag-s3-uploads
@@ -29,6 +30,7 @@ Whenever a user uploads a file to S3, an AWS Lambda function will:
 4. Runtime: Python 3.x
 
 5. Click "Create function"
+![Image Description](images/image6.png)
 
 ## Step 3: Add the Lambda Code
 1. Replace the default code with this:
@@ -83,15 +85,34 @@ def lambda_handler(event, context):
             "body": json.dumps({"error": str(e)})
         }
 ```
-
+![Image Description](images/image7.png)
 
 ## Step 4: Grant S3 Permissions
 Lambda needs permission to read & tag objects in S3.
-1. Go to IAM → Roles → Find your Lambda's IAM role
 
-2. Attach the S3 Full Access policy (or custom policy for tagging)
+1. Go to Lambda → Configuration → Permission → Find your Lambda's IAM role → Click the role
+![Image Description](images/image8.png)
+
+2. This will take you to the IAM console on the IAM role that your lambda uses. Click add permission and add "s3 full access policy"
+![Image Description](images/image9.png)
+
+3. Once done, go back to the s3 option earlier. Choose the destination to be **Lambda Function** → Choose your function on the dropdown.
+![Image Description](images/image10.png)
 
 ## Step 5: Test the Lambda Function
 1. Upload a .jpg, .pdf, or .docx file to S3
 2. The Lambda function automatically tags it
 3. Go to S3 → Select the file → Properties → Tags ✅
+
+![Image Description](images/image11.png)
+
+
+## Congratulations on completing the lab.
+
+Copy the JSON format below and submit to the autograder:
+
+{
+"s3_bucket_arn" : "<Insert arn here>",
+"lambda_function_arn" : "<Insert Function ARN here>",
+"lambda_iam_role_arn" : "<<Insert arn here>"
+}
