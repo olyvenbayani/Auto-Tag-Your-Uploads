@@ -104,7 +104,7 @@ Lambda needs permission to read & tag objects in S3.
 2. The Lambda function automatically tags it
 3. Go to S3 → Select the file → Properties → Tags ✅
 
-![Image Description](images/image11.png)
+![Image Description](images/Image11.png)
 
 
 ## Congratulations on completing the lab.
